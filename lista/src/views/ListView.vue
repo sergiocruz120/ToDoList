@@ -1,6 +1,6 @@
 <template>
-  <div>
-       <list />
+  <div class="listView">
+    <list />
   </div>
 </template>
 
@@ -15,5 +15,12 @@ export default {
 </script>
 
 <style>
+.listView{
+  display: flex;
+  flex-direction: column;
+  border: solid 1px black;
+  padding: 10px;
+  /* gap: 10px; */
+}
 
 </style>

@@ -3,7 +3,7 @@ import ListView from '../views/ListView.vue'
 
 const routes = [
   {
-    path: '/list',
+    path: '/',
     name: 'list',
     component: ListView
   }
