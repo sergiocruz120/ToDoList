@@ -6,36 +6,48 @@
     </div>
 
     <div class="task">
-      <input class="entrada" maxlength="30" type="text" placeholder="Digite uma tarefa...">
-      <button title="Adicionar tarefa" class="btn btn-primary">
+      <input class="entrada" maxlength="30" 
+      v-model="tarefas" type="text" placeholder="Digite uma tarefa...">
+
+      <button title="Adicionar tarefa" @click="adicionarTarefa" class="btn btn-primary">
         <i class="fa-regular fa-plus"></i>
         <span class="text">Adicionar</span>
       </button>
     </div>
 
     <div class="tarefas">
-      <div class="itens"> <input class="form-check-input" type="checkbox"> Planejar a semana</div>
-      <div class="itens"> <input class="form-check-input" type="checkbox"> Ligar para a família</div>
-      <div class="itens"><input class="form-check-input" type="checkbox"> Fazer uma caminhada</div>
-      <div class="itens"><input class="form-check-input" type="checkbox"> Ler um capitulo de um livro</div>
-      <div class="itens"><input class="form-check-input" type="checkbox"> Preparar uma refeição saudável</div>
-      <div class="itens"><input class="form-check-input" type="checkbox"> Organizar a casa</div>
-      <div class="itens"><input class="form-check-input" type="checkbox"> Organizar a casa</div>
-      <div class="itens"><input class="form-check-input" type="checkbox"> Organizar a casa</div>
-      <div class="itens"><input class="form-check-input" type="checkbox"> Organizar a casa</div>
-      <div class="itens"><input class="form-check-input" type="checkbox"> Organizar a casa</div>
-      <div class="itens"><input class="form-check-input" type="checkbox"> Organizar a casa</div>
-      <div class="itens"><input class="form-check-input" type="checkbox"> Organizar a casa</div>
-      <div class="itens"><input class="form-check-input" type="checkbox"> Organizar a casa</div>
+      <div class="itens" v-for="(item, index) in list" :key="index">
+        <input class="form-check-input" type="checkbox">
+        <span class="text">{{ item }}</span>
+        <i @click="removerTarefa(index)" class="fa-solid fa-xmark"></i>
+      </div>
     </div>
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref } from 'vue'
+import { useStore } from 'vuex'
+import { computed } from 'vue'
+const store = useStore()
 
-export default {
-  
+const tarefas = ref('')
+
+const list = computed(() => {
+  return store.state.list
+})
+
+const adicionarTarefa = () => {
+  if (!tarefas.value) return
+  store.dispatch('adicionarTarefa', tarefas.value)
+  tarefas.value = ''
 }
+
+const removerTarefa = (index) => {
+  store.dispatch('removerTarefa', index)
+}
+
+
 </script>
 
 <style>
@@ -84,7 +96,7 @@ export default {
   display: flex;
   font-size: 18px;
   gap: 10px;
-  justify-content: s;
+  align-items: center;
   padding: 7px;
   background-color: white;
   color: rgb(85, 85, 85);
